@@ -21,7 +21,7 @@
   var targetURL             = null;
   var onComplete            = null;
   var options               = null;
-  var debugMode             = true;
+  var debugMode             = false;
   var debuggerBlock         = "<div id='mentionable-debugger'></div>"
   var caretStartPosition    = 0;
   var keyRespondingTimeOut  = null;
