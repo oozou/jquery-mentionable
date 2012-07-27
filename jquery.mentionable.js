@@ -1,3 +1,14 @@
+/*!
+ * jQuery Mentionable
+ *
+ * A jQuery plugin that enables the user to mention other people
+ *
+ * Copyright(c) 2011 Oozou Limited. by Warut Surapat <warut@oozou.com>
+ * MIT Licensed.
+ *
+ * http://www.oozou.com
+ * https://github.com/oozou/jquery-mentionable
+ */
 (function( $ ) {
   var cachedName            = "";
   var fullCachedName        = "";
@@ -80,7 +91,6 @@
       // if user typed any letter while the caret is not at the end
       // completely remove the string behind the caret.
       fullCachedName = cachedName;
-      debug();
     });
     this.keyup(function(e){
       switch(e.keyCode){
@@ -111,7 +121,6 @@
         caretMoveDown();
           break;
       }
-      debug();
     });
   };
 
@@ -171,7 +180,6 @@
       textArea.focus();
       textArea.val(replacedText);
       hideUserFrame();
-      debug();
     });
   }
 
