@@ -8,7 +8,7 @@ You need to have a url that, when it is called, returns a list of user in json f
 When the user types a name after @, jquery.mentionable will make an ajax call to that
 url, and parse a typed name as a query param 'mentioning'. For instance, if the url
 is http://localhost/users.json, when the user types '@tai', jquery.mentionable will fire
-a request to http://localhost/users.json?mentioning=tai.
+a request to *http://localhost/users.json?mentioning=tai*.
 
 Two fields are expected in returned json: name and image_url. If these fields
 are found, jquery.mentionable can handle data population for you. However,
