@@ -9,7 +9,7 @@ First, include jquery and jquery.mentionable to your HTML.
 <script src='jquery.js'></script>
 <script src='jquery.mentionable.js'></script>
 ```
-To make a textarea mentionable, do
+To make a textarea mentionable, call mentionable method with a url string as its parameter.
 ```javascript
-$("#textarea").mentionable("user list url");
+$("#textarea").mentionable("user_list_url");
 ```
