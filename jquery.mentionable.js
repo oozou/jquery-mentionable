@@ -109,6 +109,9 @@
           if(cachedName==""){
             hideUserFrame();
           }
+          else{
+            watchKey();
+          }
           break;
         case KEY.ESCAPE:
           hideUserFrame();
