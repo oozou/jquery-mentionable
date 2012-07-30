@@ -81,9 +81,9 @@
         case KEY.ENTER:
           if(mentioningUser){
             selectUser(userList.find("li.active"));
+            e.preventDefault();
           }
           hideUserFrame();
-          e.preventDefault();
           break;
         case KEY.SPACE:
           hideUserFrame();
