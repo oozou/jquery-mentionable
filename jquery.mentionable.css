@@ -1,0 +1,25 @@
+#mentioned-user-list{
+  position: absolute;
+  border: 1px solid #CCC;
+  margin: 0;
+  width: 200px;
+  height: 200px;
+  overflow-y: scroll;
+}
+#mentioned-user-list li{
+  border-bottom: 1px solid #CCC;
+  padding: 10px;
+}
+#mentioned-user-list li:hover{
+  background: #CCC;
+}
+#mentioned-user-list li.active{
+  background-color: #333;
+  color: #FFF;
+}
+#mentioned-user-list li img{
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+#mentioned-user-list li span{}
