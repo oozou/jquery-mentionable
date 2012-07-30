@@ -131,6 +131,9 @@
     });
   };
 
+  /*
+   * hide the user list frame, and clear some related stuffs
+   */
   function hideUserFrame(){
     getUserList();
     cachedName     = "";
@@ -139,6 +142,10 @@
     mentioningUser = false;
     userList.remove();
   }
+
+  /*
+   * show the user list frame
+   */
   function showUserFrame(){
     container.append(userListWrapper);
     mentioningUser = true;
@@ -150,6 +157,9 @@
     userList.show();
   }
 
+  /*
+   * replace @ with empyty string, then fire a request for user list
+   */
   function populateItems(keyword){
     getUserList();
     userList.html("");
@@ -168,6 +178,9 @@
     bindItemClicked();
   }
 
+  /*
+   * fill user name and image as a list item in user list block
+   */
   function fillItems(data){
     if(data.length > 0){
       listSize = data.length;
@@ -182,6 +195,9 @@
     }
   }
 
+  /*
+   * bind item clicked to all item in user list
+   */
   function bindItemClicked(){
     // handle when user item is clicked.
     var userListItems = userList.find("li");
@@ -190,6 +206,10 @@
     });
   }
 
+  /*
+   * perform an user selection by adding the selected user name
+   * to the text aprea
+   */
   function selectUser(userItem){
     inputText    = textArea.val();
     replacedText = replaceString(caretStartPosition, caretStartPosition +
@@ -254,11 +274,21 @@
     myDebugger.html("<b>cache : </b>" + cachedName +" | <b>full cache : </b>" + fullCachedName);
   }
 
+  /*
+   * return an integer of a curret caret position
+   */
   function currentCaretPosition(){
     caretContainer = document.getElementById(textArea.attr("id"));
     return caretContainer.selectionStart;
   }
 
+  /*
+   * replace a part of originalString from [from] to [to] position with addedString
+   * param from               An integer of a begining position
+   * param to                 An itenger of an ending position
+   * param originalString     An original string to be partialy replaced
+   * param addedString        A string to be replaced
+   */
   function replaceString(from, to, originalString, addedString){
     try{
       if(from == 0){
@@ -275,6 +305,11 @@
     }
   }
 
+  /*
+   * initialize the key timeout. It will observe the user interaction.
+   * If the user did not respond within a specific time, e.g. pausing typing,
+   * it will fire poplateItems()
+   */
   function watchKey(){
     clearTimeout(keyRespondingTimeOut);
     keyRespondingTimeOut = setTimeout(
@@ -285,6 +320,9 @@
     );
   }
 
+  /*
+   * return a jquery object of the user list item that is in an active state
+   */
   function activeUserItemIndex(){
     return userList.find("li.active").index();
   }
