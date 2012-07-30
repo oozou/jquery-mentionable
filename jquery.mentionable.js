@@ -26,6 +26,7 @@
   var caretStartPosition    = 0;
   var keyRespondingTimeOut  = null;
   var keyRespondTime        = 500;
+  var listSize              = 0;
 
   var KEY = {
     BACKSPACE: 8,
@@ -78,6 +79,12 @@
           caretStartPosition = currentCaretPosition();
           break;
         case KEY.ENTER:
+          if(mentioningUser){
+            selectUser(userList.find("li.active"));
+          }
+          hideUserFrame();
+          e.preventDefault();
+          break;
         case KEY.SPACE:
           hideUserFrame();
           break;
@@ -128,6 +135,7 @@
     getUserList();
     cachedName     = "";
     fullCachedName = "";
+    listSize       = 0;
     mentioningUser = false;
     userList.remove();
   }
@@ -161,26 +169,35 @@
   }
 
   function fillItems(data){
-    $.each(data, function(key, value){
-      userList.append("<li><img src='" + value.image_url + "' /><span>" + value.name + "</span></li>");
-    });
-    bindItemClicked();
+    if(data.length > 0){
+      listSize = data.length;
+      $.each(data, function(key, value){
+        userList.append("<li><img src='" + value.image_url + "' /><span>" + value.name + "</span></li>");
+      });
+      userList.find("li:first-child").attr("class","active");
+      bindItemClicked();
+    }
+    else{
+      userList.append("<li>No user found</li>");
+    }
   }
 
   function bindItemClicked(){
     // handle when user item is clicked.
     var userListItems = userList.find("li");
     userListItems.click(function(){
-      var item     = $(this);
-      inputText    = textArea.val();
-
-      replacedText = replaceString(caretStartPosition, caretStartPosition +
-                                    fullCachedName.length, inputText, "@" +
-                                    item.find("span").html());
-      textArea.focus();
-      textArea.val(replacedText);
-      hideUserFrame();
+      selectUser($(this));
     });
+  }
+
+  function selectUser(userItem){
+    inputText    = textArea.val();
+    replacedText = replaceString(caretStartPosition, caretStartPosition +
+                                  fullCachedName.length, inputText, "@" +
+                                  userItem.find("span").html());
+    textArea.focus();
+    textArea.val(replacedText);
+    hideUserFrame();
   }
 
   function caretMoveLeft(){
@@ -209,10 +226,23 @@
 
   function caretMoveUp(){
 
+    currentUserItem = userList.find("li.active");
+    if(currentUserItem.index() != 0){
+      previousUserItem = currentUserItem.prev();
+      currentUserItem.attr("class","");
+      previousUserItem.attr("class","active");
+      userList.scrollTop(previousUserItem.index()*previousUserItem.outerHeight());
+    }
   }
 
   function caretMoveDown(){
-
+    currentUserItem = userList.find("li.active");
+    if(currentUserItem.index() != listSize-1){
+      nextUserItem = currentUserItem.next();
+      currentUserItem.attr("class","");
+      nextUserItem.attr("class","active");
+      userList.scrollTop(nextUserItem.index()*nextUserItem.outerHeight());
+    }
   }
 
   function getUserList(){
@@ -253,6 +283,10 @@
       },
       keyRespondTime
     );
+  }
+
+  function activeUserItemIndex(){
+    return userList.find("li.active").index();
   }
 
 })( jQuery );
