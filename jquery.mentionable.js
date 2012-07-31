@@ -281,7 +281,7 @@
    * return an integer of a curret caret position
    */
   function currentCaretPosition(){
-    caretContainer = document.getElementById(textArea.attr("id"));
+    caretContainer = textArea[0];
     return caretContainer.selectionStart;
   }
 
