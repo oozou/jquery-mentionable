@@ -57,6 +57,7 @@
    *                              (id) the id of the user list block.
    *                              (minimumChar) the minimum number of character to trigger user data retrieval
    *                              (parameterName) the query parameter name
+   *                              (position) the position of the list (right, bottom, left)
    * param onCompleteFunction   A callback function when user list is retrieved. Expected to be a user item generation.
    *
    */
@@ -67,7 +68,8 @@
     options   = $.extend({
       "id" : "mentioned-user-list",
       "minimumChar" : 2,
-      "parameterName" : "mentioning"
+      "parameterName" : "mentioning",
+      "position" : "bottom"
     }, opts);
     userListWrapper = $("<ul id='" + options.id + "'></ul>");
 
@@ -161,9 +163,22 @@
     container.append(userListWrapper);
     mentioningUser = true;
 
+
     userList = $("#" + options.id);
-    userList.css("left", -1 * userList.outerWidth());
-    userList.css("top", 0);
+    if(options.position == "left"){
+      userList.css("left", -1 * userList.outerWidth());
+      userList.css("top", 0);
+    }
+    else if(options.position == "right"){
+      userList.css("left", textArea.outerWidth());
+      userList.css("top", 0);
+    }
+    else if(options.position == "bottom"){
+      userList.css("left", 0);
+      userList.css("top", textArea.outerHeight());
+      userList.css("width", textArea.outerWidth());
+    }
+
     userList.show();
     isUserFrameShown = true;
   }
