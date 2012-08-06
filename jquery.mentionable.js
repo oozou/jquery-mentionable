@@ -27,32 +27,36 @@
   var keyRespondingTimeOut  = null;
   var keyRespondTime        = 500;
   var listSize              = 0;
+  var isUserFrameShown      = false;
 
   var KEY = {
-    BACKSPACE: 8,
-    DELETE: 46,
-    TAB: 9,
-    ENTER: 13,
-    ESCAPE: 27,
-    SPACE: 32,
-    PAGE_UP: 33,
-    PAGE_DOWN: 34,
-    END: 35,
-    HOME: 36,
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
+    BACKSPACE:    8,
+    DELETE:       46,
+    TAB:          9,
+    ENTER:        13,
+    ESCAPE:       27,
+    SPACE:        32,
+    PAGE_UP:      33,
+    PAGE_DOWN:    34,
+    END:          35,
+    HOME:         36,
+    LEFT:         37,
+    UP:           38,
+    RIGHT:        39,
+    DOWN:         40,
     NUMPAD_ENTER: 108,
-    COMMA: 188,
-    ATSIGN: 64
+    COMMA:        188,
+    ATSIGN:       64
   };
 
   /*
    * make a textarea support user mentioning
    *
    * param usersURL             A url to fire an ajax call to retrieve user list.
-   * param opts                 An options: (id) to set the id of the user list block.
+   * param opts                 An options:
+   *                              (id) the id of the user list block.
+   *                              (minimumChar) the minimum number of character to trigger user data retrieval
+   *                              (parameterName) the query parameter name
    * param onCompleteFunction   A callback function when user list is retrieved. Expected to be a user item generation.
    *
    */
@@ -61,7 +65,9 @@
     container = textArea.parent();
     targetURL = usersURL;
     options   = $.extend({
-      "id" : "mentioned-user-list"
+      "id" : "mentioned-user-list",
+      "minimumChar" : 2,
+      "parameterName" : "mentioning"
     }, opts);
     userListWrapper = $("<ul id='" + options.id + "'></ul>");
 
@@ -75,8 +81,8 @@
 
       switch(e.keyCode){
         case KEY.ATSIGN:
-          showUserFrame();
           caretStartPosition = currentCaretPosition();
+          cachedName         = "@";
           break;
         case KEY.ENTER:
           if(mentioningUser){
@@ -138,12 +144,14 @@
    * hide the user list frame, and clear some related stuffs
    */
   function hideUserFrame(){
-    getUserList();
     cachedName     = "";
     fullCachedName = "";
     listSize       = 0;
     mentioningUser = false;
-    userList.remove();
+    if(isUserFrameShown){
+      userList.remove();
+      isUserFrameShown = false;
+    }
   }
 
   /*
@@ -152,33 +160,39 @@
   function showUserFrame(){
     container.append(userListWrapper);
     mentioningUser = true;
-    cachedName     = "@";
 
-    getUserList();
+    userList = $("#" + options.id);
     userList.css("left", -1 * userList.outerWidth());
     userList.css("top", 0);
     userList.show();
+    isUserFrameShown = true;
   }
 
   /*
    * replace @ with empyty string, then fire a request for user list
    */
   function populateItems(keyword){
-    getUserList();
-    userList.html("");
-    var data = null;
-    if(keyword != undefined){
-      data = { mentioning: keyword.replace("@", "") };
+    if(keyword.length > options.minimumChar){
+
+      if(!isUserFrameShown){
+        showUserFrame();
+      }
+
+      userList.html("");
+      var data = {};
+      if(keyword != undefined){
+        data[options.parameterName] = keyword.replace("@","");
+      }
+      if(onComplete != undefined){
+        $.getJSON(targetURL, data, onComplete);
+      }
+      else{
+        $.getJSON(targetURL, data, function(data){
+          fillItems(data);
+        });
+      }
+      bindItemClicked();
     }
-    if(onComplete != undefined){
-      $.getJSON(targetURL, data, onComplete);
-    }
-    else{
-      $.getJSON(targetURL, data, function(data){
-        fillItems(data);
-      });
-    }
-    bindItemClicked();
   }
 
   /*
@@ -266,10 +280,6 @@
       nextUserItem.attr("class","active");
       userList.scrollTop(nextUserItem.index()*nextUserItem.outerHeight());
     }
-  }
-
-  function getUserList(){
-    userList = $("#" + options.id);
   }
 
   function debug(){
