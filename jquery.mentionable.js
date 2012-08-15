@@ -196,7 +196,7 @@
       userList.html("");
       var data = {};
       if(keyword != undefined){
-        data[options.parameterName] = keyword.replace("@","");
+        data[options.parameterName] = keyword.substring(1, keyword.length);
       }
       if(onComplete != undefined){
         $.getJSON(targetURL, data, onComplete);
