@@ -1,8 +1,9 @@
 # jQuery Mentionable
 **Enable the user to mention other people by typing @**
 
-jQuey Mentionable is the plugin that enables the user to mention other poeple while
-typing in text area.
+jQuey Mentionable is the plugin that enables the user to mention other poeple after
+typing '@' in the textarea. The example of jquery-mentionable can be found at
+[here](http://jquery-mentionable.ap01.aws.af.cm)
 
 ## Requirements
 You need to have a url that, when it is called, returns a list of user in json format.
@@ -24,14 +25,21 @@ First, include jquery and jquery.mentionable to your HTML.
 ```html
 <script src='jquery.js'></script>
 <script src='jquery.mentionable.js'></script>
+<link href='jquery.mentionable.css' media="all" rel="stylesheet" type="text/css">
 ```
-To make a textarea mentionable, call mentionable method with a url string as its parameter.
+Next, wrap a textarea with a div with relative positioning.
+```html
+<div style="position:relative;">
+  <textarea id="textarea"></textarea>
+</div>
+```
+To make a textarea mentionable, in javascript, call mentionable method with a url string as its parameter.
 ```javascript
 $("#textarea").mentionable("user_list_url");
 ```
 The above code will use a default callback handle to populate the user list.
 
-### Configuring
+## Configuring
 As stated above, you can also add your own handler function.
 For instance, the following code will pop an alert box when the user list is loaded.
 ```javascript
@@ -39,11 +47,11 @@ $("#textarea").mentionable("user_list_url", function(){
   alert("hello world"); // do what you want here
 });
 ```
-There are also some options that you can parsed along which are
-* id : an id of the user list container .
-* minimumChar : a minimum number of characters required to trigger user fetching.
-*parameterName : a name of parameter to be parsed to the user list url
-* position : a position of user list: left, bottom, and right.
+There are also some options that you can parsed along
+* *id* : an id of the user list container .
+* *minimumChar* : a minimum number of characters required to trigger user fetching.
+* *parameterName* : a name of parameter to be parsed to the user list url
+* *position* : a position of user list: left, bottom, and right.
 
 The following example creates a mentionable text area which will parse the name to 'user' parameter when 3 or more characters are typed.
 ```javascript
@@ -52,3 +60,13 @@ $("#textarea").mentionable(
   {minimumChar: 3, parameterName: "user"}
 );
 ```
+## Styling
+If you decided to customize the user list id, the base style of jquery-mentionable will not be applied. Please take a look at jquery-mentionable.css to explore the base style.
+
+## Known Issue
+Sadly, jquery-mentionable is now not working on Firefox.
+
+## Todo
+* Make it works with Firefox.
+* Rework on a base style, especially the hover and selection.
+
