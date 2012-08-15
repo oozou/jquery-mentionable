@@ -2,6 +2,7 @@
   position: absolute;
   border: 1px solid #CCC;
   margin: 0;
+  padding: 0;
   width: 200px;
   height: 200px;
   overflow-y: scroll;
@@ -9,6 +10,7 @@
 #mentioned-user-list li{
   border-bottom: 1px solid #CCC;
   padding: 10px;
+  list-style-type: none;
 }
 #mentioned-user-list li:hover{
   background: #CCC;
