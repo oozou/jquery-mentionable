@@ -30,9 +30,25 @@ To make a textarea mentionable, call mentionable method with a url string as its
 $("#textarea").mentionable("user_list_url");
 ```
 The above code will use a default callback handle to populate the user list.
-However, as stated above, you can also add your own handler function.
+
+### Configuring
+As stated above, you can also add your own handler function.
+For instance, the following code will pop an alert box when the user list is loaded.
 ```javascript
 $("#textarea").mentionable("user_list_url", function(){
-  // do what you want here
+  alert("hello world"); // do what you want here
 });
+```
+There are also some options that you can parsed along which are
+* id : an id of the user list container .
+* minimumChar : a minimum number of characters required to trigger user fetching.
+*parameterName : a name of parameter to be parsed to the user list url
+* position : a position of user list: left, bottom, and right.
+
+The following example creates a mentionable text area which will parse the name to 'user' parameter when 3 or more characters are typed.
+```javascript
+$("#textarea").mentionable(
+  "http://your/user/list/url",
+  {minimumChar: 3, parameterName: "user"}
+);
 ```
