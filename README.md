@@ -78,4 +78,4 @@ If you decided to customize the user list id, the base style of jquery-mentionab
 * Enable the user to use other property name other than 'name' and 'image_url'.
 
 ## Thank
-[Tanin Na Nokorn](https://github.com/tanin47) suggested how to solve the FF issue! Thank mate!
+[Tanin Na Nakorn](https://github.com/tanin47) suggested how to solve the FF issue! Thank mate!
