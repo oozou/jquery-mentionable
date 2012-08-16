@@ -72,11 +72,10 @@ $("#textarea").mentionable(
 ## Styling
 If you decided to customize the user list id, the base style of jquery-mentionable will not be applied. Please take a look at jquery-mentionable.css to explore the base style.
 
-## Known Issue
-Sadly, jquery-mentionable is now not working on Firefox.
 
 ## Todo
-* Make it works with Firefox.
 * Rework on a base style, especially the hover and selection.
 * Enable the user to use other property name other than 'name' and 'image_url'.
 
+## Thank
+[Tanin Na Nokorn](https://github.com/tanin47) suggested how to solve the FF issue! Thank mate!

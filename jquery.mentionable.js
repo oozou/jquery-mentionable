@@ -83,8 +83,7 @@
 
       switch(e.keyCode){
         case KEY.ATSIGN:
-          caretStartPosition = currentCaretPosition();
-          cachedName         = "@";
+          initNameCaching();
           break;
         case KEY.ENTER:
           if(mentioningUser){
@@ -97,9 +96,17 @@
           hideUserFrame();
           break;
         default:
-          // append pressed character to cache
-          if(cachedName != ""){
-            cachedName += String.fromCharCode(e.charCode);
+          // Firefox hacked!
+          // There is a problem on FF that @'s keycode returns 0.
+          // The case KEY.ATSIGN fails to catch, so we need to do it here instead
+          if(String.fromCharCode(e.charCode) == "@"){
+            initNameCaching();
+          }
+          else{
+            // append pressed character to cache
+            if(cachedName != ""){
+              cachedName += String.fromCharCode(e.charCode);
+            }
           }
       }
 
@@ -141,6 +148,14 @@
       }
     });
   };
+
+  /*
+   * initialize a cache that store the user name that is being mentioned
+   */
+  function initNameCaching(){
+    caretStartPosition = currentCaretPosition();
+    cachedName         = "@";
+  }
 
   /*
    * hide the user list frame, and clear some related stuffs
