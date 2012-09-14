@@ -63,6 +63,14 @@
    */
   $.fn.mentionable = function(usersURL, opts, onCompleteFunction) {
     textArea  = this;
+
+    // remove other mentionable text area before enable current one
+    if($("textarea.mentionable-textarea").length){
+      $("textarea.mentionable-textarea").val("");
+      $("textarea.mentionable-textarea").off("keypress");
+      $("textarea.mentionable-textarea").off("keyup");
+    }
+
     container = textArea.parent();
     targetURL = usersURL;
     options   = $.extend({
